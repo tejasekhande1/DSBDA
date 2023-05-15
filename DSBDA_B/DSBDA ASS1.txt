@@ -1,0 +1,307 @@
+#C33378
+#Mansi Barjibhe
+#ass1
+
+# import all the required libraries
+import numpy as np
+import pandas as pd
+# import matplotlib.pyplot as plt
+# from sklearn.preprocessing import MinMaxScaler
+# import scipy as sp
+
+# read data from the data set
+ds1 = pd.read_csv("Student_performance.csv")
+
+# ds2 = pd.read_json("json_filename")
+# ds3 = pd.read_text("text_filename")
+# ds4 = pd.read_excel("xlsx_filename")
+# ds5 = pd.read_html("html_filename")
+# ds6 = pd.read_xml("xml_filename")
+
+
+# PERFORM OPERATIONS ON THE DATA FRAME
+
+print(ds1.head())
+#output   gender NationalITy  ... StudentAbsenceDays Class
+# 0      M          KW  ...            Under-7     M
+# 1      M          KW  ...            Under-7     M
+# 2      M          KW  ...            Above-7     L
+# 3      M          KW  ...            Above-7     L
+# 4      M          KW  ...            Above-7     M
+
+print(ds1.tail())
+#output     gender NationalITy  ... StudentAbsenceDays Class
+# 475      F      Jordan  ...            Above-7     L
+# 476      F      Jordan  ...            Under-7     M
+# 477      F      Jordan  ...            Under-7     M
+# 478      F      Jordan  ...            Above-7     L
+# 479      F      Jordan  ...            Above-7     L
+
+
+print("Shape:", ds1.shape)
+# Shape: (480, 17)
+
+print("Columns:", ds1.columns)
+# Columns: 
+# 		Index(['gender', 'NationalITy', 'PlaceofBirth', 'StageID', 'GradeID',
+#        'SectionID', 'Topic', 'Semester', 'Relation', 'raisedhands',
+#        'VisITedResources', 'AnnouncementsView', 'Discussion',
+#        'ParentAnsweringSurvey', 'ParentschoolSatisfaction',
+#        'StudentAbsenceDays', 'Class'],
+#       dtype='object')
+
+
+print("Describe:", ds1.describe())
+# Describe:        raisedhands  VisITedResources  AnnouncementsView  Discussion
+# count   480.000000        480.000000         480.000000  480.000000
+# mean     46.775000         54.797917          37.918750   43.283333
+# std      30.779223         33.080007          26.611244   27.637735
+# min       0.000000          0.000000           0.000000    1.000000
+# 25%      15.750000         20.000000          14.000000   20.000000
+# 50%      50.000000         65.000000          33.000000   39.000000
+# 75%      75.000000         84.000000          58.000000   70.000000
+# max     100.000000         99.000000          98.000000   99.000000
+
+
+print(ds1.info())
+#  # Column                    Non-Null Count  Dtype 
+# ---  ------                    --------------  ----- 
+#  0   gender                    480 non-null    object
+#  1   NationalITy               480 non-null    object
+#  2   PlaceofBirth              480 non-null    object
+#  3   StageID                   480 non-null    object
+#  4   GradeID                   480 non-null    object
+#  5   SectionID                 480 non-null    object
+#  6   Topic                     480 non-null    object
+#  7   Semester                  480 non-null    object
+#  8   Relation                  480 non-null    object
+#  9   raisedhands               480 non-null    int64 
+#  10  VisITedResources          480 non-null    int64 
+#  11  AnnouncementsView         480 non-null    int64 
+#  12  Discussion                480 non-null    int64 
+#  13  ParentAnsweringSurvey     480 non-null    object
+#  14  ParentschoolSatisfaction  480 non-null    object
+#  15  StudentAbsenceDays        480 non-null    object
+#  16  Class                     480 non-null    object
+# dtypes: int64(4), object(13)
+# memory usage: 63.9+ KB
+
+
+print("Size: \n", ds1.size)
+# Size: 8160
+
+
+print("isna: \n",ds1.isna().sum())
+# isna:      gender  NationalITy  ...  StudentAbsenceDays  Class
+# 0     False        False  ...               False  False
+# 1     False        False  ...               False  False
+# 2     False        False  ...               False  False
+# 3     False        False  ...               False  False
+# 4     False        False  ...               False  False
+
+# 479   False        False  ...               False  False
+
+
+isna().sum()
+#  gender                      0
+# NationalITy                 0
+# PlaceofBirth                0
+# StageID                     0
+# GradeID                     0
+# SectionID                   0
+# Topic                       0
+# Semester                    0
+# Relation                    0
+# raisedhands                 0
+# VisITedResources            0
+# AnnouncementsView           0
+# Discussion                  0
+# ParentAnsweringSurvey       0
+# ParentschoolSatisfaction    0
+# StudentAbsenceDays          0
+# Class                       0
+# dtype: int64
+
+
+
+print("isnull: \n",ds1.isnull().sum())
+# isnull:      gender  NationalITy  ...  StudentAbsenceDays  Class
+# 0     False        False  ...               False  False
+# 1     False        False  ...               False  False
+# 2     False        False  ...               False  False
+
+# 479   False        False  ...               False  False
+
+# isnull
+#  gender                      0
+# NationalITy                 0
+# PlaceofBirth                0
+# StageID                     0
+# GradeID                     0
+# SectionID                   0
+# Topic                       0
+# Semester                    0
+# Relation                    0
+# raisedhands                 0
+# VisITedResources            0
+# AnnouncementsView           0
+# Discussion                  0
+# ParentAnsweringSurvey       0
+# ParentschoolSatisfaction    0
+# StudentAbsenceDays          0
+# Class                       0
+# dtype: int64
+
+
+print("/n",ds1.astype({"gender": "string"}).dtypes)
+# gender                      string
+# NationalITy                 object
+# PlaceofBirth                object
+# StageID                     object
+# GradeID                     object
+# SectionID                   object
+# Topic                       object
+# Semester                    object
+# Relation                    object
+# raisedhands                  int64
+# VisITedResources             int64
+# AnnouncementsView            int64
+# Discussion                   int64
+# ParentAnsweringSurvey       object
+# ParentschoolSatisfaction    object
+# StudentAbsenceDays          object
+# Class                       object
+# dtype: object
+
+# -------------------------------------------------------------------------------
+
+stud = {
+	'Roll no': [1,2,3,4,5],
+	'Student_name': ['AAA','BBB','CCC','EEE', 'DDD'],
+	'Marks': [45,np.nan,65,np.nan,80],
+	'Gender': ['M','M','M','F','F']
+}
+
+ds2 = pd.DataFrame(stud)
+
+print(ds2.head())
+
+print("isnull: \n",ds2.isnull().sum())
+# isnull: 
+#  Roll no         0
+# Student_name    0
+# Marks           2
+# Gender          0
+# dtype: int64
+
+
+print(ds2.fillna(ds2.mean()))
+#    Roll no Student_name      Marks Gender
+# 0        1          AAA  45.000000      M
+# 1        2          BBB  63.333333      M
+# 2        3          CCC  65.000000      M
+# 3        4          EEE  63.333333      F
+# 4        5          DDD  80.000000      F
+
+ds2["Gender"].replace(["M", "F"], [0, 1], inplace=True)
+print(ds2)
+#    Roll no Student_name  Marks  Gender
+# 0        1          AAA   45.0       0
+# 1        2          BBB    NaN       0
+# 2        3          CCC   65.0       0
+# 3        4          EEE    NaN       1
+# 4        5          DDD   80.0       1
+
+# print(ds2["Marks"].interpolate())
+# 0    45.0
+# 1    55.0
+# 2    65.0
+# 3    72.5
+# 4    80.0
+# Name: Marks, dtype: float64
+
+ds2["Gender"] = ds2['Gender'].astype("category")
+ds2["Gender"] = ds2["Gender"].cat.codes
+print(ds2)
+#    Roll no Student_name  Marks  Gender
+# 0        1          AAA   45.0       1
+# 1        2          BBB    NaN       1
+# 2        3          CCC   65.0       1
+# 3        4          EEE    NaN       0
+# 4        5          DDD   80.0       0
+
+ds2 = pd.get_dummies(ds2, columns=["Gender"], prefix= "sex").head()
+print(ds2)
+#    Roll no Student_name  Marks  sex_F  sex_M
+# 0        1          AAA   45.0      0      1
+# 1        2          BBB    NaN      0      1
+# 2        3          CCC   65.0      0      1
+# 3        4          EEE    NaN      1      0
+# 4        5          DDD   80.0      1      0
+
+
+ds2["Gender"] = ds2["Gender"].map({"M":1, "F":0})
+print(ds2) 
+#    Roll no Student_name  Marks  Gender
+# 0        1          AAA   45.0       1
+# 1        2          BBB    NaN       1
+# 2        3          CCC   65.0       1
+# 3        4          EEE    NaN       0
+# 4        5          DDD   80.0       0
+
+
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder()
+ds2[["Gender"]] = oe.fit_transform(ds2[["Gender"]])
+print(ds2)
+#    Roll no Student_name  Marks  Gender
+# 0        1          AAA   45.0     1.0
+# 1        2          BBB    NaN     1.0
+# 2        3          CCC   65.0     1.0
+# 3        4          EEE    NaN     0.0
+# 4        5          DDD   80.0     0.0
+
+
+# print(ds1['raisedhands'])
+# # ds1["raisedhands"] = ds1["raisedhands"] / ds1["raisedhands"].abs().max()
+
+# MAX ABS SCALER
+from sklearn.preprocessing import MaxAbsScaler
+X = np.array(ds1['raisedhands']).reshape(-1,1)
+scaler = MaxAbsScaler()
+scaler.fit(X)
+X_scaled = scaler.transform(X)
+print(X_scaled)
+
+# STANDARD SCALER
+from sklearn.preprocessing import StandardScaler
+ds1['raisedhands'] = (ds1['raisedhands'] - ds1['raisedhands'].mean()) / (ds1['raisedhands'].std())
+print(ds1['raisedhands'])
+
+X = np.array(ds1['raisedhands']).reshape(-1,1)
+scaler = StandardScaler()
+scaler.fit(X)
+scaled_X = scaler.transform(X)
+print(scaled_X)
+
+# standard scaler gives scaled down values between min and max values 
+
+# ROBUST SCALER
+from sklearn.preprocessing import RobustScaler
+ds1['raisedhands'] = (ds1['raisedhands'] - ds1['raisedhands'].mean()) / (ds1['raisedhands'].quantile(0.75) - ds1['raisedhands'].quantile(0.25))
+print(ds1['raisedhands'])
+
+X = np.array(ds1['raisedhands']).reshape(-1,1)
+transformer = RobustScaler().fit(X)
+scaled = transformer.transform(X)
+print(scaled)
+
+# MINMAX SCALER
+from sklearn.preprocessing import MinMaxScaler
+X = np.array(ds1['raisedhands']).reshape(-1,1)
+scaler = MinMaxScaler()
+scaler.fit(X)
+scaled_X = scaler.transform(X)
+print(scaled_X)
+
+# MinMaxScaler gives scaled data between 0 to 1

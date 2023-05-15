@@ -1,0 +1,54 @@
+# C33378
+# Mansi Barjibhe
+# ass9
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('tested.csv')
+
+print(df['Age'])
+PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 C33378_ass9.py
+0      34.5
+1      47.0
+2      62.0
+3      27.0
+4      22.0
+       ...
+413     NaN
+414    39.0
+415    38.5
+416     NaN
+417     NaN
+Name: Age, Length: 418, dtype: float64
+
+# df.boxplot(column='Age')
+# plt.xlabel("Age")
+# plt.ylabel("Value")
+# plt.show()
+
+# plt.boxplot(df['Age'])
+# plt.xlabel("Age")
+# plt.ylabel("Value")
+# plt.show()
+
+# sns.boxplot(x=df['Age'])
+# plt.xlabel("Age")
+# plt.ylabel("Value")
+# plt.show()
+
+# df.boxplot(column='Age', by="Sex")
+# plt.xlabel("Sex")
+# plt.ylabel("Age")
+# plt.show()
+
+# sns.boxplot(x = 'Sex', y = 'Age', data = df)
+# plt.xlabel('Gender')
+# plt.ylabel('Age')
+# plt.show()
+
+# sns.boxplot(x = 'Sex', y = 'Age', hue = 'Survived', data = df)
+# plt.xlabel('Gender')
+# plt.ylabel('Age')
+# plt.show()

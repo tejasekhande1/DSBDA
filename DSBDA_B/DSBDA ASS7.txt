@@ -1,0 +1,156 @@
+C33378
+Mansi Barjibhe
+ass7
+
+import nltk
+from nltk.tokenize import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+import re 
+from nltk.stem import PorterStemmer
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+import math
+
+
+text= "Tokenization is the first step in text analytics. The
+process of breaking down a text paragraph into smaller chunks
+such as words or sentences is called Tokenization."
+
+from nltk.tokenize import sent_tokenize
+tokenized_text= sent_tokenize(text)
+print(tokenized_text)
+PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass7.py
+['Tokenization is the first step in text analytics.', 'The process of breaking down a text paragraph into smaller chunks such as words or sentences is called Tokenization.']
+
+from nltk.tokenize import word_tokenize
+tokenized_word=word_tokenize(text)
+print(tokenized_word)
+['Tokenization', 'is', 'the', 'first', 'step', 'in', 'text', 'analytics', '.', 'The', 'process', 'of', 'breaking', 'down', 'a', 'text', 'paragraph', 'into', 'smaller', 'chunks', 'such', 'as', 'words', 'or', 'sentences', 'is', 'called', 'Tokenization', '.']
+
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop_words=set(stopwords.words("english"))
+print(stop_words)
+PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass7.py
+{'and', 'll', "couldn't", 'but', 'been', 'an', 'herself', 's', 'during', 'out', 'where', 'its', 'no', 'yourselves', 'into', 'hadn', 'haven', "shouldn't", 'from', 'not', 'the', 'themselves', 'there', 'm', 'himself', 'this', "wouldn't", 'these', 'such', 'about', 'with', 't', 'as', 'while', 'on', 'needn', 'myself', 'hers', 'who', 'be', 'were', 'very', 'so', 'why', 'more', 'didn', "you'll", "should've", 'before', 'should', 'what', 'has', 'until', 'above', "you've", "isn't", "mustn't", 'his', 'at', 'to', 'further', 'your', "you'd", 'wasn', 'how', 'against', 'me', 're', "doesn't", 'hasn', 'over', 'then', 'wouldn', 'other', 'ours', 'yourself', 'did', "needn't", 'she', 'all', 'don', 'i', 'through', 'below', "hadn't", 'of', 'he', 'some', 'am', 'any', 'are', 'up', 'itself', 'than', 'for', 'is', 'ma', "didn't", "shan't", 'their', 'in', 'aren', 'do', 'doing', "weren't", 'once', 'here', 'only', "mightn't", "hasn't", 'when', 'shouldn', 'too', "won't", 'under', 'mustn', 'now', 'few', 'both', "wasn't", 'y', "aren't", "she's", 'same', "you're", 'her', 'we', 'weren', 'can', 'having', "don't", 'which', 'yours', 'had', 'each', 'if', 'o', 'you', 'isn', 'does', 'ain', 'ourselves', 'that', 'between', 'again', 'd', 'they', 'him', 'it', 'mightn', 'because', 'doesn', "it's", 'theirs', 'being', 'after', 'down', "that'll", 'own', 'whom', 'those', 'or', 've', 'have', 'will', 'a', 'most', 'by', 'won', "haven't", 'couldn', 'my', 'off', 'was', 'nor', 'shan', 'our', 'them', 'just'}
+
+import re
+text= "How to remove stop words with NLTK library in Python?"
+text= re.sub('[^a-zA-Z]', ' ',text)
+tokens = word_tokenize(text.lower())
+filtered_text=[]
+for w in tokens:
+if w not in stop_words:
+filtered_text.append(w)
+print("Tokenized Sentence:",tokens)
+print("Filterd Sentence:",filtered_text)
+Tokenized Sentence: ['how', 'to', 'remove', 'stop', 'words', 'with', 'nltk', 'library', 'in', 'python']
+Filterd Sentence: ['remove', 'stop', 'words', 'nltk', 'library', 'python']
+
+from nltk.stem import PorterStemmer
+e_words= ["wait", "waiting", "waited", "waits"]
+ps =PorterStemmer()
+for w in e_words:
+rootWord=ps.stem(w)
+print(rootWord)
+PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass7.py
+wait
+
+from nltk.stem import WordNetLemmatizer
+wordnet_lemmatizer = WordNetLemmatizer()
+text = "studies studying cries cry"
+tokenization = nltk.word_tokenize(text)
+for w in tokenization:
+print("Lemma for {} is {}".format(w, wordnet_lemmatizer.lemmatize(w)))
+
+import nltk
+from nltk.tokenize import word_tokenize
+data="The pink sweater fit her perfectly"
+words=word_tokenize(data)
+for word in words:
+print(nltk.pos_tag([word]))
+[('The', 'DT')]
+[('pink', 'NN')]
+[('sweater', 'NN')]
+[('fit', 'NN')]
+[('her', 'PRP$')]
+[('perfectly', 'RB')]
+
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+documentA = 'Jupiter is the largest Planet'
+documentB = 'Mars is the fourth planet from the Sun'
+
+bagOfWordsA = documentA.split(' ')
+bagOfWordsB = documentB.split(' ')
+print(bagOfWordsA)
+print(bagOfWordsB)
+PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass7.py
+['Jupiter', 'is', 'the', 'largest', 'Planet']
+['Mars', 'is', 'the', 'fourth', 'planet', 'from', 'the', 'Sun']
+
+uniqueWords = set(bagOfWordsA).union(set(bagOfWordsB))
+print(uniqueWords)
+{'the', 'fourth', 'Sun', 'Jupiter', 'Planet', 'Mars', 'largest', 'is', 'from', 'planet'}
+
+numOfWordsA = dict.fromkeys(uniqueWords, 0)
+for word in bagOfWordsA:
+    numOfWordsA[word] += 1
+print(numOfWordsA)
+numOfWordsB = dict.fromkeys(uniqueWords, 0)
+for word in bagOfWordsB:
+    numOfWordsB[word] += 1
+print(numOfWordsB)
+{'Planet': 1, 'Jupiter': 1, 'Sun': 0, 'fourth': 0, 'is': 1, 'planet': 0, 'largest': 1, 'the': 1, 'from': 0, 'Mars': 0}
+{'is': 1, 'Jupiter': 0, 'planet': 1, 'Planet': 0, 'Sun': 1, 'the': 2, 'largest': 0, 'Mars': 1, 'from': 1, 'fourth': 1}
+
+def computeTF(wordDict, bagOfWords):
+  tfDict = {}
+  bagOfWordsCount = len(bagOfWords)
+  for word, count in wordDict.items():
+    tfDict[word] = count / float(bagOfWordsCount)
+  return tfDict
+tfA = computeTF(numOfWordsA, bagOfWordsA)
+tfB = computeTF(numOfWordsB, bagOfWordsB)
+print(tfA)
+{'the': 0.2, 'Planet': 0.2, 'planet': 0.0, 'Jupiter': 0.2, 'from': 0.0, 'largest': 0.2, 'fourth': 0.0, 'is': 0.2, 'Mars': 0.0, 'Sun': 0.0}
+print(tfB)
+{'the': 0.25, 'Planet': 0.0, 'planet': 0.125, 'Jupiter': 0.0, 'from': 0.125, 'largest': 0.0, 'fourth': 0.125, 'is': 0.125, 'Mars': 0.125, 'Sun': 0.
+
+import math
+def computeIDF(documents):
+  N = len(documents)
+  idfDict = dict.fromkeys(documents[0].keys(), 0)
+  for document in documents:
+    for word, val in document.items():
+      if val > 0:
+        idfDict[word] += 1
+  
+  for word, val in idfDict.items():
+    idfDict[word] = math.log(N / float(val))
+  return idfDict
+
+idfs = computeIDF([numOfWordsA, numOfWordsB]) 
+print(idfs)
+{'from': 0.6931471805599453, 'Jupiter': 0.6931471805599453, 'Planet': 0.6931471805599453, 'is': 0.0, 'the': 0.0, 'Sun': 0.6931471805599453, 'largest': 0.6931471805599453, 'fourth': 0.6931471805599453, 'planet': 0.6931471805599453, 'Mars': 0.6931471805599453}
+
+def computeTFIDF(tfBagOfWords, idfs):
+  tfidf = {}
+  for word, val in tfBagOfWords.items():
+    tfidf[word] = val * idfs[word]
+  return tfidf
+
+tfidfA = computeTFIDF(tfA, idfs)
+tfidfB = computeTFIDF(tfB, idfs)
+
+print(tfidfA) -> {'planet': 0.0, 'Mars': 0.0, 'is': 0.0, 'Jupiter': 0.13862943611198905, 'Sun': 0.0, 'from': 0.0, 'the': 0.0, 'fourth': 0.0, 'Planet': 0.13862943611198905, 'largest': 0.13862943611198905}
+
+print(tfidfB) -> {'Jupiter': 0.0, 'is': 0.0, 'fourth': 0.08664339756999316, 'from': 0.08664339756999316, 'planet': 0.08664339756999316, 'Mars': 0.08664339756999316, 'Sun': 0.08664339756999316, 'Planet': 0.0, 'largest': 0.0, 'the': 0.0}
+
+df = pd.DataFrame([tfidfA, tfidfB])
+print(df)
+   Jupiter    planet       Sun    fourth      Mars      from  the   is   largest    Planet
+0  0.138629  0.000000  0.000000  0.000000  0.000000  0.000000  0.0  0.0  0.138629  0.138629
+1  0.000000  0.086643  0.086643  0.086643  0.086643  0.086643  0.0  0.0  0.000000  0.000000

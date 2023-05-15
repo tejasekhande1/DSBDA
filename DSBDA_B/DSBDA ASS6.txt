@@ -1,0 +1,160 @@
+# C33378
+# Mansi Barjibhe
+# ass6
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sklearn.model_selection
+import sklearn.metrics
+from sklearn.metrics import precision_score
+from sklearn.preprocessing import StandardScaler
+
+df= pd.read_csv("IRIS.csv")
+# print(df.dtypes)
+#PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass6.py
+# sepal_length    float64
+# sepal_width     float64
+# petal_length    float64
+# petal_width     float64
+# species          object
+# dtype: object
+
+# df['species']=df['species'].astype('category')
+# print(df.dtypes)
+# sepal_length     float64
+# sepal_width      float64
+# petal_length     float64
+# petal_width      float64
+# species         category
+# dtype: object
+
+# df.species = df.species.astype('category').cat.codes
+# print(df)
+#  sepal_length  sepal_width  petal_length  petal_width  species
+# 0             5.1          3.5           1.4          0.2        0
+# 1             4.9          3.0           1.4          0.2        0
+# 2             4.7          3.2           1.3          0.2        0
+# 3             4.6          3.1           1.5          0.2        0
+# 4             5.0          3.6           1.4          0.2        0
+# ..            ...          ...           ...          ...      ...
+# 145           6.7          3.0           5.2          2.3        2
+# 146           6.3          2.5           5.0          1.9        2
+# 147           6.5          3.0           5.2          2.0        2
+# 148           6.2          3.4           5.4          2.3        2
+# 149           5.9          3.0           5.1          1.8        2
+
+# [150 rows x 5 columns]
+
+# print("isnull:\n",df.isnull().sum())
+# isnull:
+#  sepal_length    0
+# sepal_width     0
+# petal_length    0
+# petal_width     0
+# species         0
+# dtype: int64
+
+# def DetectOutliers(df, var):
+# 	Q1 = df[var].quantile(0.25)
+# 	Q3 = df[var].quantile(0.75)
+# 	IQR = Q3 - Q1
+# 	high, low = Q3 + 1.5 * IQR, Q1 - 1.5 * IQR
+# 	print("Highest allowed in " , var + " " , high)
+# 	print("Lowest allowed in " , var + " " , low)
+# 	count = df[(df[var]>high) | (df[var]<low)] [var].count()
+# 	print("Total outliers in " , var , " are " , count)
+# DetectOutliers(df,'sepal_length')
+# DetectOutliers(df,'sepal_width')
+# DetectOutliers(df,'petal_length')
+# DetectOutliers(df,'petal_width')
+
+# PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass6.py
+# Highest allowed in  sepal_length  8.350000000000001
+# Lowest allowed in  sepal_length  3.1499999999999986
+# Total outliers in  sepal_length  are  0
+# Highest allowed in  sepal_width  4.05
+# Lowest allowed in  sepal_width  2.05
+# Total outliers in  sepal_width  are  4
+# Highest allowed in  petal_length  10.349999999999998
+# Lowest allowed in  petal_length  -3.649999999999999
+# Total outliers in  petal_length  are  0
+# Highest allowed in  petal_width  4.05
+# Lowest allowed in  petal_width  -1.95
+# Total outliers in  petal_width  are  0
+    
+import seaborn as sns
+import matplotlib.pyplot as plt
+# sns.boxplot(df['sepal_width'])
+# plt.show()
+
+# def OutlierRemoval(df, var):
+# 	Q1 = df[var].quantile(0.25)
+# 	Q3 = df[var].quantile(0.75)
+# 	IQR = Q3 - Q1
+# 	high, low = Q3 + 1.5 * IQR, Q1 - 1.5 * IQR
+# 	print("The Highest in variable: ", var, high)
+# 	print("The Lowest in variable: ", var, low)
+# 	count = df[(df[var] > high) | (df[var] < low)][var].count()
+# 	print("Total outliers in: ", var, ":", count)
+# 	df = df[((df[var] >= low) & (df[var] <= high))]
+# 	return df
+# 	print(df.shape)
+# 	(150, 6)
+
+# 	df = OutlierRemoval(df, 'SepalWidthCm')
+#     print(df.shape)
+#     The Highest in variable:  SepalWidthCm 4.05
+#     The Lowest in variable:  SepalWidthCm 2.05 
+#     Total outliers in:  SepalWidthCm : 4
+#     (146, 6)
+
+
+# sns.heatmap(df.corr(), annot=True)
+# plt.show()   
+
+# X = df[['sepal_length', 'sepal_width', 'petal_length', 'sepal_width']]
+# y = df['species']
+# from sklearn.model_selection import train_test_split
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=100)
+    
+# from sklearn.preprocessing import StandardScaler
+# sc_X = StandardScaler()
+# X_train = sc_X.fit_transform(X_train)
+# X_test = sc_X.fit_transform(X_test)
+
+# from sklearn.naive_bayes import GaussianNB
+# classfier = GaussianNB()
+# classfier.fit(X_train, y_train)
+
+# y_pred = classfier.predict(X_test)
+
+# from sklearn.metrics import accuracy_score
+# accuracy = accuracy_score(y_test, y_pred)
+# print("Accuracy: ", accuracy)
+# PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass6.py
+# Accuracy:  0.9
+
+# from sklearn.metrics import confusion_matrix
+# cm = confusion_matrix(y_test, y_pred)
+# sns.heatmap(cm, annot=True)
+# plt.show()
+
+#from sklearn.metrics import classification_report
+# report = classification_report(y_test, y_pred)
+# print(report)
+#PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 ass6.py
+#        precision    recall  f1-score   support
+
+#            0       1.00      1.00      1.00        11
+#            1       0.67      1.00      0.80         6
+#            2       1.00      0.77      0.87        13
+
+#     accuracy                           0.90        30
+#    macro avg       0.89      0.92      0.89        30
+# weighted avg       0.93      0.90      0.90        30
+
+#score = classfier.score(X_test, y_test)
+# print(score)
+# 0.9

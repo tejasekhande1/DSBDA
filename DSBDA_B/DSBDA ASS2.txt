@@ -1,0 +1,53 @@
+#C33378
+#Mansi Barjibhe
+#ass2
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# read data from the data set
+ds1 = pd.read_csv("Student_performance.csv")
+
+ds1.isnull().sum()
+ds1.fillna(ds1.mean())
+
+
+sns.boxplot(data = ds1, x = ds1['Discussion'], y = ds1['NationalITy'])
+sns.boxplot(data = ds1, x = ds1['Discussion'], y = ds1['NationalITy'], hue= ds1['gender'])
+plt.show()
+
+sns.scatterplot(data = ds1, x = ds1['raisedhands'], y = ds1['VisITedResources'])
+plt.show()
+
+sns.heatmap(ds1.corr(), annot=True)
+plt.show()
+
+print(ds1.corr())
+
+lower_limit = ds1['raisedhands'].mean()-3 * ds1['raisedhands'].std()
+upper_limit = ds1['raisedhands'].mean()+3 * ds1['raisedhands'].std()
+ds1 = ds1[(ds1['raisedhands'] >= lower_limit) & (ds1['raisedhands'] <= upper_limit)]
+print(ds1)
+
+# def outliersZScore(ys):
+# 	stdev_y = np.std(ys)
+# 	z_scores = [(y - np.mean(ys)) / stdev_y for y in ys]
+# 	return np.where(np.abs(z_scores) > 0)
+
+# print(outliersZScore(ds1['raisedhands']))
+
+
+mean = np.mean(ds1['raisedhands'])
+std = np.std(ds1['raisedhands'])
+
+maxThreshold = 3
+minThreshold = -3
+outlier = []
+for i in ds1['raisedhands']:
+	z = (i-mean)/std
+	if(z > maxThreshold or z < minThreshold):
+		outlier.append(i)
+
+print("Outliers are:", outlier)

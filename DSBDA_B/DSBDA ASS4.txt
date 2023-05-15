@@ -1,0 +1,211 @@
+#C33378
+#Mansi Barjibhe
+#ass4
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+from sklearn.metrics import mean_absolute_error
+ds1 = pd.read_csv('HousingData.csv')
+
+# print(ds1)
+#         CRIM    ZN  INDUS  CHAS    NOX     RM   AGE     DIS  RAD  TAX  PTRATIO       B  LSTAT  MEDV
+# 0    0.00632  18.0   2.31   0.0  0.538  6.575  65.2  4.0900    1  296     15.3  396.90   4.98  24.0
+# 1    0.02731   0.0   7.07   0.0  0.469  6.421  78.9  4.9671    2  242     17.8  396.90   9.14  21.6
+# 2    0.02729   0.0   7.07   0.0  0.469  7.185  61.1  4.9671    2  242     17.8  392.83   4.03  34.7
+# 3    0.03237   0.0   2.18   0.0  0.458  6.998  45.8  6.0622    3  222     18.7  394.63   2.94  33.4
+# 4    0.06905   0.0   2.18   0.0  0.458  7.147  54.2  6.0622    3  222     18.7  396.90    NaN  36.2
+# ..       ...   ...    ...   ...    ...    ...   ...     ...  ...  ...      ...     ...    ...   ...
+# 501  0.06263   0.0  11.93   0.0  0.573  6.593  69.1  2.4786    1  273     21.0  391.99    NaN  22.4
+# 502  0.04527   0.0  11.93   0.0  0.573  6.120  76.7  2.2875    1  273     21.0  396.90   9.08  20.6
+# 503  0.06076   0.0  11.93   0.0  0.573  6.976  91.0  2.1675    1  273     21.0  396.90   5.64  23.9
+# 504  0.10959   0.0  11.93   0.0  0.573  6.794  89.3  2.3889    1  273     21.0  393.45   6.48  22.0
+# 505  0.04741   0.0  11.93   0.0  0.573  6.030   NaN  2.5050    1  273     21.0  396.90   7.88  11.9
+
+# [506 rows x 14 columns]
+
+# print(ds1.head())
+#       CRIM    ZN  INDUS  CHAS    NOX     RM   AGE     DIS  RAD  TAX  PTRATIO       B  LSTAT  MEDV
+# 0  0.00632  18.0   2.31   0.0  0.538  6.575  65.2  4.0900    1  296     15.3  396.90   4.98  24.0
+# 1  0.02731   0.0   7.07   0.0  0.469  6.421  78.9  4.9671    2  242     17.8  396.90   9.14  21.6
+# 2  0.02729   0.0   7.07   0.0  0.469  7.185  61.1  4.9671    2  242     17.8  392.83   4.03  34.7
+# 3  0.03237   0.0   2.18   0.0  0.458  6.998  45.8  6.0622    3  222     18.7  394.63   2.94  33.4
+# 4  0.06905   0.0   2.18   0.0  0.458  7.147  54.2  6.0622    3  222     18.7  396.90    NaN  36.2
+
+# print(ds1.shape)
+# (506, 14)
+
+# print(ds1.info())
+# RangeIndex: 506 entries, 0 to 505
+# Data columns (total 14 columns):
+#  #   Column   Non-Null Count  Dtype
+# ---  ------   --------------  -----
+#  0   CRIM     486 non-null    float64
+#  1   ZN       486 non-null    float64
+#  2   INDUS    486 non-null    float64
+#  3   CHAS     486 non-null    float64
+#  4   NOX      506 non-null    float64
+#  5   RM       506 non-null    float64
+#  6   AGE      486 non-null    float64
+#  7   DIS      506 non-null    float64
+#  8   RAD      506 non-null    int64
+#  9   TAX      506 non-null    int64
+#  10  PTRATIO  506 non-null    float64
+#  11  B        506 non-null    float64
+#  12  LSTAT    486 non-null    float64
+#  13  MEDV     506 non-null    float64
+# dtypes: float64(12), int64(2)
+# memory usage: 55.5 KB
+# None
+
+# print(ds1.isna().sum())
+# CRIM       20
+# ZN         20
+# INDUS      20
+# CHAS       20
+# NOX         0
+# RM          0
+# AGE        20
+# DIS         0
+# RAD         0
+# TAX         0
+# PTRATIO     0
+# B           0
+# LSTAT      20
+# MEDV        0
+# dtype: int64
+
+# print(ds1.describe())
+#              CRIM          ZN       INDUS        CHAS         NOX  ...         TAX     PTRATIO           B       LSTAT        MEDV
+# count  486.000000  486.000000  486.000000  486.000000  506.000000  ...  506.000000  506.000000  506.000000  486.000000  506.000000
+# mean     3.611874   11.211934   11.083992    0.069959    0.554695  ...  408.237154   18.455534  356.674032   12.715432   22.532806
+# std      8.720192   23.388876    6.835896    0.255340    0.115878  ...  168.537116    2.164946   91.294864    7.155871    9.197104
+# min      0.006320    0.000000    0.460000    0.000000    0.385000  ...  187.000000   12.600000    0.320000    1.730000    5.000000
+# 25%      0.081900    0.000000    5.190000    0.000000    0.449000  ...  279.000000   17.400000  375.377500    7.125000   17.025000
+# 50%      0.253715    0.000000    9.690000    0.000000    0.538000  ...  330.000000   19.050000  391.440000   11.430000   21.200000
+# 75%      3.560263   12.500000   18.100000    0.000000    0.624000  ...  666.000000   20.200000  396.225000   16.955000   25.000000
+# max     88.976200  100.000000   27.740000    1.000000    0.871000  ...  711.000000   22.000000  396.900000   37.970000   50.000000
+
+# [8 rows x 14 columns]
+
+# print(ds1.min())
+# CRIM         0.00632
+# ZN           0.00000
+# INDUS        0.46000
+# CHAS         0.00000
+# NOX          0.38500
+# RM           3.56100
+# AGE          2.90000
+# DIS          1.12960
+# RAD          1.00000
+# TAX        187.00000
+# PTRATIO     12.60000
+# B            0.32000
+# LSTAT        1.73000
+# MEDV         5.00000
+# dtype: float64
+
+# print(ds1.max())
+# CRIM        88.9762
+# ZN         100.0000
+# INDUS       27.7400
+# CHAS         1.0000
+# NOX          0.8710
+# RM           8.7800
+# AGE        100.0000
+# DIS         12.1265
+# RAD         24.0000
+# TAX        711.0000
+# PTRATIO     22.0000
+# B          396.9000
+# LSTAT       37.9700
+# MEDV        50.0000
+# dtype: float64
+
+# print(ds1['CRIM'].mean())
+# 3.6118739711934156
+
+# print(ds1['CRIM'].fillna(ds1['CRIM'].mean(), inplace=True))
+# There is  ot any null value in the CRIM column.
+
+# Boxplot
+# sns.boxplot(x = ds1['RM'])
+# plt.show()
+
+# Scatterplot
+# sns.scatterplot(x = ds1['RM'], y=ds1['MEDV'])
+# plt.show()
+
+# Displot
+# sns.displot(ds1['MEDV'])
+# plt.show()
+
+# print(ds1.corr())
+# sns.heatmap(ds1.corr(), annot = True)
+# plt.show()
+
+
+# Print outliers in dataset using IQR(Inter Quartile Range)
+# q1 = np.percentile(ds1['RM'], 25)
+# q3 = np.percentile(ds1['RM'], 75)
+# IQR = q3 - q1
+# lower_bound = q1 - 1.5 * IQR
+# upper_bound = q3 + 1.5 * IQR
+# outlier = []
+# for i in ds1['RM']:
+#     if i<lower_bound or i>upper_bound:
+#         outlier.append(i)
+# print("The outliers in dataset are ", outlier)
+# The outliers in dataset are  [8.069, 7.82, 7.802, 8.375, 7.929, 7.765, 7.831, 7.875, 7.853, 8.034, 8.266, 8.725, 8.04, 8.337, 8.247, 8.259, 8.704, 8.398, 8.297, 7.82, 7.923, 8.78, 3.561, 3.863, 4.138, 4.368, 4.652, 4.138, 4.628, 4.519]
+
+# x = ds1[['RM', 'LSTAT']]
+# y = ds1[['MEDV']]
+
+# X_train, X_test, Y_train, Y_test = train_test_split(x, y, test_size = 0.2)
+# model = LinearRegression().fit(X_train, Y_train)
+# output = model.predict(X_test)
+
+# y_train_predict = model.predict(X_train)
+# rmse = (np.sqrt(metrics.mean_squared_error(Y_train, y_train_predict)))
+# r2 = metrics.r2_score(Y_train, y_train_predict)
+# print("The performance model for training")
+# print("RMSE is :{}".format(rmse))
+# print("R2 score is {}".format(r2))
+
+ds1["CRIM"]=ds1["CRIM"].fillna(ds1["CRIM"].mean())
+ds1["ZN"]=ds1["ZN"].fillna(ds1["ZN"].mean())
+ds1["INDUS"]=ds1["INDUS"].fillna(ds1["INDUS"].mean())
+ds1["CHAS"]=ds1["CHAS"].fillna(ds1["CHAS"].mean())
+ds1["AGE"]=ds1["AGE"].fillna(ds1["AGE"].mean())
+ds1["LSTAT"]=ds1["LSTAT"].fillna(ds1["LSTAT"].mean())
+# print(ds1)
+
+X = ds1[['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX','B','LSTAT','PTRATIO']]
+Y = ds1['MEDV']
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3)
+print(f'Train Dataset Size - X: {X_train.shape}, Y: {Y_train.shape}')
+print(f'Test Dataset Size - X: {X_test.shape}, Y: {Y_test.shape}')
+
+lm = LinearRegression()
+lm.fit(X_train,Y_train)
+predictions = lm.predict(X_test)
+
+# plt.figure(figsize=(10, 10))
+# plt.scatter(Y_test, predictions)
+# plt.xlabel('Y Test')
+# plt.ylabel('Predicted Y')
+# plt.title('Test vs Prediction')
+# plt.show()
+
+plt.figure(figsize=(6, 6))
+sns.regplot(x = X_test['TAX'], y = predictions, scatter_kws={'s':5})
+plt.scatter(X_test['TAX'], Y_test, marker = '*')
+plt.xlabel(' full-value property-tax rate per $10,000')
+plt.ylabel('Median value of owner-occupied homes')
+plt.title('Regression Line Tracing')
+plt.show()

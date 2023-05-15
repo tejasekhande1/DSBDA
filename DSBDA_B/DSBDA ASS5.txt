@@ -1,0 +1,155 @@
+#C33378
+#Mansi Barjibhe
+#ass5
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import sklearn.model_selection 
+import sklearn.metrics
+from sklearn.metrics import precision_score
+from sklearn.preprocessing import StandardScaler
+
+df = pd.read_csv("Social_Network_Ads.csv")
+
+# print(df.head(4))
+#     User ID  Gender  Age  EstimatedSalary  Purchased
+# 0  15624510    Male   19            19000          0
+# 1  15810944    Male   35            20000          0
+# 2  15668575  Female   26            43000          0
+# 3  15603246  Female   27            57000          0
+
+# print(df.isnull())
+#     User ID  Gender    Age  EstimatedSalary  Purchased
+# 0      False   False  False            False      False
+# 1      False   False  False            False      False
+# 2      False   False  False            False      False
+# 3      False   False  False            False      False
+# 4      False   False  False            False      False
+# ..       ...     ...    ...              ...        ...
+# 395    False   False  False            False      False
+# 396    False   False  False            False      False
+# 397    False   False  False            False      False
+# 398    False   False  False            False      False
+# 399    False   False  False            False      False
+
+# [400 rows x 5 columns]
+
+#sns.heatmap(df.isnull(),yticklabels=False,cbar=False,cmap="viridis")
+#plt.show
+
+# sns.boxplot(x='Age', data=df)
+# plt.show()
+
+# sns.set_style("whitegrid")
+# sns.countplot(x='User ID', hue='Purchased', data=df) -> Image
+# sns.displot(df['Age'].dropna(),kde=False,bins=30) -> Image
+# plt.show()
+
+# print(df.info)
+# <bound method DataFrame.info of       User ID  Gender  Age  EstimatedSalary  Purchased
+# 0    15624510    Male   19            19000          0
+# 1    15810944    Male   35            20000          0
+# 2    15668575  Female   26            43000          0
+# 3    15603246  Female   27            57000          0
+# 4    15804002    Male   19            76000          0
+# ..        ...     ...  ...              ...        ...
+# 395  15691863  Female   46            41000          1
+# 396  15706071    Male   51            23000          1
+# 397  15654296  Female   50            20000          1
+# 398  15755018    Male   36            33000          0
+# 399  15594041  Female   49            36000          1
+
+
+# df['EstimatedSalary'].plot(kind='hist', bins=50)
+# plt.show()
+
+# sns.boxplot(x='EstimatedSalary',y='Purchased', data=df)
+# plt.show()
+
+# df.dropna(inplace=True)
+# print(df)
+#      User ID  Gender  Age  EstimatedSalary  Purchased
+# 0    15624510    Male   19            19000          0
+# 1    15810944    Male   35            20000          0
+# 2    15668575  Female   26            43000          0
+# 3    15603246  Female   27            57000          0
+# 4    15804002    Male   19            76000          0
+# ..        ...     ...  ...              ...        ...
+# 395  15691863  Female   46            41000          1
+# 396  15706071    Male   51            23000          1
+# 397  15654296  Female   50            20000          1
+# 398  15755018    Male   36            33000          0
+# 399  15594041  Female   49            36000          1
+
+# [400 rows x 5 columns]
+
+#Gender=pd.get_dummies(df['Gender'])
+#df=pd.concat([df,Gender],axis=1)
+# print(df)
+#       User ID  Gender  Age  EstimatedSalary  Purchased  Female  Male
+# 0    15624510    Male   19            19000          0       0     1
+# 1    15810944    Male   35            20000          0       0     1
+# 2    15668575  Female   26            43000          0       1     0
+# 3    15603246  Female   27            57000          0       1     0
+# 4    15804002    Male   19            76000          0       0     1
+# ..        ...     ...  ...              ...        ...     ...   ...
+# 395  15691863  Female   46            41000          1       1     0
+# 396  15706071    Male   51            23000          1       0     1
+# 397  15654296  Female   50            20000          1       1     0
+# 398  15755018    Male   36            33000          0       0     1
+# 399  15594041  Female   49            36000          1       1     0
+
+# [400 rows x 7 columns]
+
+
+#df.drop('User ID', inplace=True, axis=1)
+# print(df)
+#      Gender  Age  EstimatedSalary  Purchased  Female  Male
+# 0      Male   19            19000          0       0     1
+# 1      Male   35            20000          0       0     1
+# 2    Female   26            43000          0       1     0
+# 3    Female   27            57000          0       1     0
+# 4      Male   19            76000          0       0     1
+# ..      ...  ...              ...        ...     ...   ...
+# 395  Female   46            41000          1       1     0
+# 396    Male   51            23000          1       0     1
+# 397  Female   50            20000          1       1     0
+# 398    Male   36            33000          0       0     1
+# 399  Female   49            36000          1       1     0
+
+df['Gender'].replace(['Male','Female'],[0,1],inplace = True)
+# print(df.head())
+#  Gender  Age  EstimatedSalary  Purchased  Female  Male
+# 0       0   19            19000          0       0     1
+# 1       0   35            20000          0       0     1
+# 2       1   26            43000          0       1     0
+# 3       1   27            57000          0       1     0
+# 4       0   19            76000          0       0     1
+
+# x = df[['Gender','Age', 'EstimatedSalary']]  #input data
+# y = df['Purchased']
+
+# from sklearn.model_selection import train_test_split
+# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state=42)
+
+# from sklearn.linear_model import LogisticRegression
+
+# model = LogisticRegression()
+# model.fit(x_train, y_train)
+# prediction = model.predict(x_test)
+
+# from sklearn.metrics import confusion_matrix
+# confusion_matrix(y_test,prediction)
+
+# from sklearn.metrics import precision_recall_fscore_support,confusion_matrix, classification_report
+# print("Recall score : ",sklearn.metrics.recall_score(y_test,prediction))
+# print("accuracy score : ",sklearn.metrics.accuracy_score(y_test,prediction))
+# print("f1 score : ",sklearn.metrics.f1_score(y_test,prediction))
+# print("precision score : ",sklearn.metrics.precision_score(y_test,prediction,zero_division=1))
+
+# Recall score :  0.0
+# accuracy score :  0.65
+# f1 score :  0.0
+# precision score :  1.0

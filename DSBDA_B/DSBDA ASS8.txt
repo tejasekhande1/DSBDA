@@ -1,0 +1,56 @@
+# C33378
+# Mansi Barjibhe
+# ass8
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv("tested.csv")
+
+# print(df.info())
+# RangeIndex: 418 entries, 0 to 417
+# Data columns (total 12 columns):
+#  #   Column       Non-Null Count  Dtype
+# ---  ------       --------------  -----
+#  0   PassengerId  418 non-null    int64
+#  1   Survived     418 non-null    int64
+#  2   Pclass       418 non-null    int64
+#  3   Name         418 non-null    object
+#  4   Sex          418 non-null    object
+#  5   Age          332 non-null    float64
+#  6   SibSp        418 non-null    int64
+#  7   Parch        418 non-null    int64
+#  8   Ticket       418 non-null    object
+#  9   Fare         417 non-null    float64
+#  10  Cabin        91 non-null     object
+#  11  Embarked     418 non-null    object
+# dtypes: float64(2), int64(5), object(5)
+# memory usage: 39.3+ KB
+# None
+
+# print(df.columns)
+# PS C:\Users\Mansi\OneDrive\Documents\C33378> python3 C33378_ass8.py
+# Index(['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
+#        'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
+#       dtype='object')
+
+
+# df.hist(column='Fare')
+# plt.xlabel("Fare")
+# plt.ylabel("Frequency")
+# plt.show()
+
+# plt.hist(x='Fare')
+# plt.xlabel("Fare")
+# plt.ylabel("Frequency")
+# plt.show()
+
+# sns.histplot(data=df, x='Fare')
+# plt.xlabel("Fare")
+# plt.ylabel("Frequency")
+# plt.show()
+
+sns.displot(data=df, x="Fare", kde=True)
+plt.show()
